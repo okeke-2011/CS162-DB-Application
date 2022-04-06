@@ -1,7 +1,7 @@
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy import create_engine, Column, Integer, String, Numeric, Date, Boolean, ForeignKey
 
-engine = create_engine('sqlite:///db.sqlite3', echo=True)
+engine = create_engine('sqlite:///db.sqlite3', echo=False)
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -54,7 +54,7 @@ class Houses(Base):
     seller_id = Column(Integer, ForeignKey("sellers.seller_id"))
     num_bedrooms = Column(Integer)
     num_bathrooms = Column(Integer)
-    listing_price = Column(Numeric(10, 2))
+    listing_price = Column(Integer)
     zip_code = Column(Integer)
     listing_date = Column(Date)
     sold = Column(Boolean)
@@ -72,10 +72,10 @@ class Sales(Base):
 
     sale_id = Column(Integer, primary_key=True)
     house_id = Column(Integer, ForeignKey("houses.house_id"))
-    sale_price = Column(Numeric(10, 2))
+    sale_price = Column(Integer)
     buyer_id = Column(Integer, ForeignKey("buyers.buyer_id"))
     sale_date = Column(Date)
-    commission = Column(Numeric(10, 2))
+    commission = Column(Integer)
 
     def __repr__(self):
         attributes = [self.sale_id, self.house_id, self.sale_price,
@@ -110,6 +110,3 @@ class Buyers(Base):
         attributes = [self.buyer_id, self.buyer_name, self.buyer_email, self.buyer_mobile]
         str_attrs = [str(attr) for attr in attributes]
         return " ".join(str_attrs)
-
-
-Base.metadata.create_all(engine)
