@@ -11,7 +11,7 @@ class Offices(Base):
     __tablename__ = 'offices'
 
     office_id = Column(Integer, primary_key=True)
-    location = Column(String)
+    location = Column(String, index=True)
 
     def __repr__(self):
         attributes = [self.office_id, self.location]
@@ -23,9 +23,9 @@ class Agents(Base):
     __tablename__ = 'agents'
 
     agent_id = Column(Integer, primary_key=True)
-    agent_name = Column(String)
-    agent_email = Column(String)
-    agent_mobile = Column(String)
+    agent_name = Column(String, index=True)
+    agent_email = Column(String, index=True)
+    agent_mobile = Column(String, index=True)
 
     def __repr__(self):
         attributes = [self.agent_id, self.agent_name, self.agent_email, self.agent_mobile]
@@ -49,9 +49,9 @@ class Houses(Base):
     __tablename__ = 'houses'
 
     house_id = Column(Integer, primary_key=True)
-    office_id = Column(Integer, ForeignKey("offices.office_id"))
-    agent_id = Column(Integer, ForeignKey("agents.agent_id"))
-    seller_id = Column(Integer, ForeignKey("sellers.seller_id"))
+    office_id = Column(Integer, ForeignKey("offices.office_id"), index=True)
+    agent_id = Column(Integer, ForeignKey("agents.agent_id"), index=True)
+    seller_id = Column(Integer, ForeignKey("sellers.seller_id"), index=True)
     num_bedrooms = Column(Integer)
     num_bathrooms = Column(Integer)
     listing_price = Column(Integer)
@@ -71,7 +71,7 @@ class Sales(Base):
     __tablename__ = 'sales'
 
     sale_id = Column(Integer, primary_key=True)
-    house_id = Column(Integer, ForeignKey("houses.house_id"))
+    house_id = Column(Integer, ForeignKey("houses.house_id"), index=True)
     sale_price = Column(Integer)
     buyer_id = Column(Integer, ForeignKey("buyers.buyer_id"))
     sale_date = Column(Date)
